@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cloudflared
-        image: cloudflare/cloudflared:2021.4.0
+        image: erisamoe/cloudflared:2021.11.0
         args:
         - tunnel
         # Points cloudflared to the config file, which configures what
@@ -43,7 +43,13 @@ spec:
         - name: creds
           mountPath: /etc/cloudflared/creds
           readOnly: true
+        - name: cert
+          mountPath: /etc/cloudflared
+          readOnly: true
       volumes:
+      - name: cert
+        secret:
+          secretName: tunnel-cert
       - name: creds
         secret:
           # By default, the credentials file will be created under ~/.cloudflared/<tunnel ID>.json
